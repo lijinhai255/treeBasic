@@ -1,0 +1,1 @@
+{"mappings":"AAAA,QAAQ,GAAG,CAAC","sources":["src/main/main.ts"],"sourcesContent":["console.log(\"Hello, Electron!\");\n"],"names":[],"version":3,"file":"index.2914a3fb.js.map","sourceRoot":"/__parcel_source_root/"}

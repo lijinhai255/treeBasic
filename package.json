@@ -1,0 +1,29 @@
+{
+  "name": "treebasic",
+  "version": "0.1.0",
+  "description": "treejs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lijinhai255/treeBasic.git"
+  },
+  "author": "lijinhai255 <976041476@qq.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lijinhai255/treeBasic/issues"
+  },
+  "homepage": "https://github.com/lijinhai255/treeBasic#readme",
+  "devDependencies": {
+    "@parcel/transformer-less": "2.12.0",
+    "parcel": "^2.12.0"
+  },
+  "dependencies": {
+    "dat.gui": "^0.7.9",
+    "gsap": "^3.12.5",
+    "three": "^0.166.0"
+  }
+}
