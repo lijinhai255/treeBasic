@@ -30,19 +30,9 @@ controls.update();
 const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
 // 创建一个立方体
-// const geometry = new THREE.BoxGeometry();
-const geometry = new THREE.BufferGeometry();
-const vertices = new Float32Array([
-  -1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0,
-
-  1.0, 1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, 1.0,
-]);
-// itemSize = 3 因为每个顶点都是一个三元组。
-geometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
-
+const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 const cube = new THREE.Mesh(geometry, material);
-console.log(cube, "cube-cube");
 scene.add(cube);
 
 camera.position.z = 5;
@@ -137,6 +127,22 @@ window.addEventListener("resize", () => {
 });
 // 渲染循环
 function animate() {
+  // 获取时钟运行的总时长
+  //   const time = clock.getElapsedTime();
+  //   console.log(time, "获取时钟运行的总时长");
+  // 间隔时间
+  //   const getDeltaTime = clock.getDelta();
+  //   console.log(getDeltaTime, "间隔时间");
+
+  //   cube.position.x += 0.01;
+  //   cube.position.y += 0.01;
+  //   cube.rotation.x += 0.01;
+  //   if (cube.position.x > 5) {
+  //     cube.position.x = 0;
+  //   }
+  //   if (cube.position.y > 5) {
+  //     cube.position.y = 0;
+  //   }
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
 }
