@@ -19,6 +19,7 @@
   "homepage": "https://github.com/lijinhai255/treeBasic#readme",
   "devDependencies": {
     "@parcel/transformer-less": "2.12.0",
+    "@types/three": "^0.166.0",
     "parcel": "^2.12.0"
   },
   "dependencies": {
