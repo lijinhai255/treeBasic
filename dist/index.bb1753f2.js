@@ -656,6 +656,7 @@ window.addEventListener("dblclick", ()=>{
 // 创建 dat.GUI
 const gui = new _datGui.GUI();
 // 添加控件
+//@ts-ignore
 const cubeFolder = gui?.addFolder("Cube");
 cubeFolder.add(cube.rotation, "x", 0, Math.PI * 2);
 cubeFolder.add(cube.rotation, "y", 0, Math.PI * 2);
@@ -663,10 +664,30 @@ cubeFolder.add(cube.rotation, "z", 0, Math.PI * 2);
 cubeFolder.add(cube.scale, "x", 0, 3).name("scaleX");
 cubeFolder.add(cube.scale, "y", 0, 3).name("scaleY");
 cubeFolder.add(cube.scale, "z", 0, 3).name("scaleZ");
+const setParams = {
+    color: 0x00ff00,
+    fn: ()=>{
+        console.log("parasms");
+        cube.material.color.set(setParams.color);
+        (0, _gsap.gsap).to(cube.position, {
+            x: -5,
+            duration: 5,
+            delay: 1,
+            repeat: -1,
+            yoyoEase: true,
+            ease: "power1.inOut"
+        });
+    }
+};
+cubeFolder.addColor(setParams, "color").onChange((color)=>{
+    console.log(color, "color");
+    cube.material.color.set(color);
+});
+//是否显示
+cubeFolder.add(cube, "visible").name("\u663E\u793A");
+cubeFolder.add(setParams, "fn").name("\u8BBE\u7F6E\u52A8\u753B");
 cubeFolder.open();
-console.log(cube, "\u7269\u4F53");
 window.addEventListener("resize", ()=>{
-    console.log("\u9875\u9762\u53D8haul\u997F");
     // 更新摄像头
     camera.aspect = window.innerWidth / window.innerHeight;
     // 更新投影矩阵
