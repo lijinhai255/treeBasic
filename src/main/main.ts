@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import * as dat from "dat.gui";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { gsap } from "gsap";
 // 添加横纵坐标
 
 const canvas = document.querySelector<HTMLCanvasElement>("#three")!;
@@ -21,6 +22,8 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 // 控制器
 const controls = new OrbitControls(camera, renderer.domElement);
+// 控制器设置阻尼 增强物体的真实效果
+controls.enableDamping = true;
 controls.update();
 // 添加坐标轴
 const axesHelper = new THREE.AxesHelper(5);
@@ -46,6 +49,32 @@ camera.position.z = 5;
 //--------------设置时钟---------------------------------//
 const clock = new THREE.Clock();
 
+////-------------GSAP设置动画----------------------////
+let animation = gsap.to(cube.position, {
+  x: 5,
+  duration: 5,
+  delay: 1,
+  repeat: -1,
+  yoyoEase: true,
+  ease: "power1.inOut", // 缓动效果
+});
+// gsap.to(cube.position, {
+//   y: 5,
+//   duration: 5,
+//   delay: 1,
+// });
+gsap.to(cube.rotation, {
+  x: 5,
+  duration: 5,
+  delay: 1,
+  repeat: -1,
+  yoyoEase: true,
+});
+
+window.addEventListener("dblclick", () => {
+  console.log(animation, "animate", animation.isActive());
+  animation.isActive() ? animation.pause() : animation.play();
+});
 // 创建 dat.GUI
 const gui = new dat.GUI();
 
@@ -60,7 +89,17 @@ cubeFolder.add(cube.scale, "z", 0, 3).name("scaleZ");
 cubeFolder.open();
 
 console.log(cube, "物体");
-
+window.addEventListener("resize", () => {
+  console.log("页面变haul饿");
+  // 更新摄像头
+  camera.aspect = window.innerWidth / window.innerHeight;
+  // 更新投影矩阵
+  camera.updateProjectionMatrix();
+  //更新渲染器
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  // 设置渲染器的像素比
+  renderer.setPixelRatio(window.devicePixelRatio);
+});
 // 渲染循环
 function animate() {
   // 获取时钟运行的总时长
@@ -70,11 +109,15 @@ function animate() {
   //   const getDeltaTime = clock.getDelta();
   //   console.log(getDeltaTime, "间隔时间");
 
-  cube.position.x += 0.01;
-  cube.rotation.x += 0.01;
-  if (cube.position.x > 5) {
-    cube.position.x = 0;
-  }
+  //   cube.position.x += 0.01;
+  //   cube.position.y += 0.01;
+  //   cube.rotation.x += 0.01;
+  //   if (cube.position.x > 5) {
+  //     cube.position.x = 0;
+  //   }
+  //   if (cube.position.y > 5) {
+  //     cube.position.y = 0;
+  //   }
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
 }
