@@ -110,6 +110,9 @@ cubeFolder.addColor(setParams, "color").onChange((color) => {
 //是否显示
 cubeFolder.add(cube, "visible").name("显示");
 cubeFolder.add(setParams, "fn").name("设置动画");
+// cubeFolder.add(cube, "wrieframe").name("线框模式");
+var folder = cubeFolder.addFolder("folder");
+folder.add(cube.material, "wireframe").name("线框模式");
 cubeFolder.open();
 
 window.addEventListener("resize", () => {

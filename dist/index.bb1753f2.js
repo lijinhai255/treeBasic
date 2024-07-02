@@ -686,6 +686,9 @@ cubeFolder.addColor(setParams, "color").onChange((color)=>{
 //是否显示
 cubeFolder.add(cube, "visible").name("\u663E\u793A");
 cubeFolder.add(setParams, "fn").name("\u8BBE\u7F6E\u52A8\u753B");
+// cubeFolder.add(cube, "wrieframe").name("线框模式");
+var folder = cubeFolder.addFolder("folder");
+folder.add(cube.material, "wireframe").name("\u7EBF\u6846\u6A21\u5F0F");
 cubeFolder.open();
 window.addEventListener("resize", ()=>{
     // 更新摄像头
