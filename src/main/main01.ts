@@ -2,7 +2,6 @@ import * as THREE from "three";
 import * as dat from "dat.gui";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { gsap } from "gsap";
-import { toggleFullscreen } from "./utils";
 // 添加横纵坐标
 
 const canvas = document.querySelector<HTMLCanvasElement>("#three")!;
@@ -48,9 +47,10 @@ camera.position.z = 5;
 //-------------------end-------------------------//
 
 //--------------设置时钟---------------------------------//
+const clock = new THREE.Clock();
 
 ////-------------GSAP设置动画----------------------////
-gsap.to(cube.position, {
+let animation = gsap.to(cube.position, {
   x: 5,
   duration: 5,
   delay: 1,
@@ -72,15 +72,14 @@ gsap.to(cube.rotation, {
 });
 
 window.addEventListener("dblclick", () => {
-  //   console.log(animation, "animate", animation.isActive());
-  //   animation.isActive() ? animation.pause() : animation.play();
-  toggleFullscreen(renderer);
+  console.log(animation, "animate", animation.isActive());
+  animation.isActive() ? animation.pause() : animation.play();
 });
 // 创建 dat.GUI
 const gui = new dat.GUI();
 
 // 添加控件
-const cubeFolder = gui?.addFolder("Cube");
+const cubeFolder = gui.addFolder("Cube");
 cubeFolder.add(cube.rotation, "x", 0, Math.PI * 2);
 cubeFolder.add(cube.rotation, "y", 0, Math.PI * 2);
 cubeFolder.add(cube.rotation, "z", 0, Math.PI * 2);

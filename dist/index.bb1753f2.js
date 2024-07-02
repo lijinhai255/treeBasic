@@ -588,6 +588,7 @@ var _three = require("three");
 var _datGui = require("dat.gui");
 var _orbitControlsJs = require("three/examples/jsm/controls/OrbitControls.js");
 var _gsap = require("gsap");
+var _utils = require("./utils");
 // 添加横纵坐标
 const canvas = document.querySelector("#three");
 // 创建场景、相机和渲染器
@@ -626,9 +627,8 @@ camera.position.z = 5;
 //
 //-------------------end-------------------------//
 //--------------设置时钟---------------------------------//
-const clock = new _three.Clock();
 ////-------------GSAP设置动画----------------------////
-let animation = (0, _gsap.gsap).to(cube.position, {
+(0, _gsap.gsap).to(cube.position, {
     x: 5,
     duration: 5,
     delay: 1,
@@ -649,13 +649,14 @@ let animation = (0, _gsap.gsap).to(cube.position, {
     yoyoEase: true
 });
 window.addEventListener("dblclick", ()=>{
-    console.log(animation, "animate", animation.isActive());
-    animation.isActive() ? animation.pause() : animation.play();
+    //   console.log(animation, "animate", animation.isActive());
+    //   animation.isActive() ? animation.pause() : animation.play();
+    (0, _utils.toggleFullscreen)(renderer);
 });
 // 创建 dat.GUI
 const gui = new _datGui.GUI();
 // 添加控件
-const cubeFolder = gui.addFolder("Cube");
+const cubeFolder = gui?.addFolder("Cube");
 cubeFolder.add(cube.rotation, "x", 0, Math.PI * 2);
 cubeFolder.add(cube.rotation, "y", 0, Math.PI * 2);
 cubeFolder.add(cube.rotation, "z", 0, Math.PI * 2);
@@ -697,7 +698,7 @@ function animate() {
 }
 animate();
 
-},{"three":"ksAUw","dat.gui":"23Ud5","three/examples/jsm/controls/OrbitControls.js":"8lr10","gsap":"k3DGt"}],"ksAUw":[function(require,module,exports) {
+},{"three":"ksAUw","dat.gui":"23Ud5","three/examples/jsm/controls/OrbitControls.js":"8lr10","gsap":"k3DGt","./utils":"lKiRY"}],"ksAUw":[function(require,module,exports) {
 /**
  * @license
  * Copyright 2010-2024 Three.js Authors
@@ -39236,6 +39237,31 @@ var CSSPlugin = {
 });
 (0, _gsapCoreJs.gsap).registerPlugin(CSSPlugin);
 
-},{"./gsap-core.js":"8oVOV","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}]},["2KOP2","3Bb0l"], "3Bb0l", "parcelRequire1d36")
+},{"./gsap-core.js":"8oVOV","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}],"lKiRY":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "toggleFullscreen", ()=>toggleFullscreen);
+function exitFullscreen() {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    else if (document.msExitFullscreen) document.msExitFullscreen();
+}
+function enterFullscreen(renderer) {
+    if (renderer.domElement.requestFullscreen) renderer.domElement.requestFullscreen();
+    else if (renderer.domElement.mozRequestFullScreen) renderer.domElement.mozRequestFullScreen();
+    else if (renderer.domElement.webkitRequestFullscreen) renderer.domElement.webkitRequestFullscreen();
+    else if (renderer.domElement.msRequestFullscreen) renderer.domElement.msRequestFullscreen();
+    renderer.domElement.requestFullscreen();
+}
+function isFullscreen() {
+    return document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+}
+function toggleFullscreen(renderer) {
+    if (isFullscreen()) exitFullscreen();
+    else enterFullscreen(renderer);
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}]},["2KOP2","3Bb0l"], "3Bb0l", "parcelRequire1d36")
 
 //# sourceMappingURL=index.bb1753f2.js.map
