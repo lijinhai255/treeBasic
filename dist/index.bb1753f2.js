@@ -587,38 +587,41 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var _three = require("three");
 // 导入轨道控制器
 var _orbitControlsJs = require("three/examples/jsm/controls/OrbitControls.js");
+// 目标：透明纹理
 const canvas = document.querySelector("#three");
 // 1、创建场景
 const scene = new _three.Scene();
 // 2、创建相机
 const camera = new _three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const loader = new _three.TextureLoader();
 // 设置相机位置
 camera.position.set(0, 0, 10);
 scene.add(camera);
 // 导入纹理
-const texture = new _three.TextureLoader().load("./textures/door/color.jpg");
-// 立即使用纹理进行材质创建
-const material = new _three.MeshBasicMaterial({
-    map: texture
-});
-// console.log(doorColorTexture);
-//
+const textureLoader = new _three.TextureLoader();
+const doorColorTexture = textureLoader.load("./textures/door/color.jpg");
+const doorAplhaTexture = textureLoader.load("./textures/door/alpha.jpg");
 // 添加物体
-const cubeGeometry = new _three.BoxGeometry(1, 1, 1);
-// const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+const cubeGeometry = new _three.BoxGeometry(1, 1);
 // 材质
-// const basicMaterial = new THREE.MeshBasicMaterial({
-//   color: "#ffff00",
-//   map: doorColorTexture,
-// });
-const cube = new _three.Mesh(cubeGeometry, material);
+const basicMaterial = new _three.MeshBasicMaterial({
+    color: "#ffff00",
+    map: doorColorTexture,
+    alphaMap: doorAplhaTexture,
+    transparent: true,
+    // opacity: 0.3,
+    side: _three.DoubleSide
+});
+basicMaterial.side = _three.DoubleSide;
+const cube = new _three.Mesh(cubeGeometry, basicMaterial);
 scene.add(cube);
+// 添加平面
+const plane = new _three.Mesh(new _three.PlaneGeometry(1, 1), basicMaterial);
+plane.position.set(3, 0, 0);
+scene.add(plane);
 // 初始化渲染器
 const renderer = new _three.WebGLRenderer({
     canvas,
-    antialias: true,
-    powerPreference: "high-performance"
+    antialias: true
 });
 // 设置渲染的尺寸大小
 renderer.setSize(window.innerWidth, window.innerHeight);
