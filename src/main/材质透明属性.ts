@@ -6,7 +6,7 @@ import gsap from "gsap";
 // 导入dat.gui
 import * as dat from "dat.gui";
 
-// 目标：环境遮挡帖图与强度
+// 目标：透明纹理
 const canvas = document.querySelector<HTMLCanvasElement>("#three")!;
 
 // 1、创建场景
@@ -28,39 +28,26 @@ scene.add(camera);
 const textureLoader = new THREE.TextureLoader();
 const doorColorTexture = textureLoader.load("./textures/door/color.jpg");
 const doorAplhaTexture = textureLoader.load("./textures/door/alpha.jpg");
-const doorAoTexture = textureLoader.load(
-  "./textures/door/ambientOcclusion.jpg"
-);
+
 // 添加物体
 const cubeGeometry = new THREE.BoxGeometry(1, 1);
 // 材质
 const basicMaterial = new THREE.MeshBasicMaterial({
-  // color: "#ffff00",
+  color: "#ffff00",
   map: doorColorTexture,
   alphaMap: doorAplhaTexture,
   transparent: true,
   // opacity: 0.3,
   side: THREE.DoubleSide,
-  aoMap: doorAoTexture,
-  aoMapIntensity: 1,
 });
 basicMaterial.side = THREE.DoubleSide;
 const cube = new THREE.Mesh(cubeGeometry, basicMaterial);
 scene.add(cube);
 
 // 添加平面
-// 添加平面
-const planeGeometry = new THREE.PlaneGeometry(1, 1);
-const plane = new THREE.Mesh(planeGeometry, basicMaterial);
+const plane = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), basicMaterial);
 plane.position.set(3, 0, 0);
-
 scene.add(plane);
-// console.log(plane);
-// 给平面设置第二组uv
-planeGeometry.setAttribute(
-  "uv2",
-  new THREE.BufferAttribute(planeGeometry.attributes.uv.array, 2)
-);
 
 // 初始化渲染器
 const renderer = new THREE.WebGLRenderer({

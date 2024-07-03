@@ -587,7 +587,7 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var _three = require("three");
 // 导入轨道控制器
 var _orbitControlsJs = require("three/examples/jsm/controls/OrbitControls.js");
-// 目标：透明纹理
+// 目标：环境遮挡帖图与强度
 const canvas = document.querySelector("#three");
 // 1、创建场景
 const scene = new _three.Scene();
@@ -600,24 +600,32 @@ scene.add(camera);
 const textureLoader = new _three.TextureLoader();
 const doorColorTexture = textureLoader.load("./textures/door/color.jpg");
 const doorAplhaTexture = textureLoader.load("./textures/door/alpha.jpg");
+const doorAoTexture = textureLoader.load("./textures/door/ambientOcclusion.jpg");
 // 添加物体
 const cubeGeometry = new _three.BoxGeometry(1, 1);
 // 材质
 const basicMaterial = new _three.MeshBasicMaterial({
-    color: "#ffff00",
+    // color: "#ffff00",
     map: doorColorTexture,
     alphaMap: doorAplhaTexture,
     transparent: true,
     // opacity: 0.3,
-    side: _three.DoubleSide
+    side: _three.DoubleSide,
+    aoMap: doorAoTexture,
+    aoMapIntensity: 1
 });
 basicMaterial.side = _three.DoubleSide;
 const cube = new _three.Mesh(cubeGeometry, basicMaterial);
 scene.add(cube);
 // 添加平面
-const plane = new _three.Mesh(new _three.PlaneGeometry(1, 1), basicMaterial);
+// 添加平面
+const planeGeometry = new _three.PlaneGeometry(1, 1);
+const plane = new _three.Mesh(planeGeometry, basicMaterial);
 plane.position.set(3, 0, 0);
 scene.add(plane);
+// console.log(plane);
+// 给平面设置第二组uv
+planeGeometry.setAttribute("uv2", new _three.BufferAttribute(planeGeometry.attributes.uv.array, 2));
 // 初始化渲染器
 const renderer = new _three.WebGLRenderer({
     canvas,
